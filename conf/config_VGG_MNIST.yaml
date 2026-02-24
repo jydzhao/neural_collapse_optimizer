@@ -1,0 +1,53 @@
+###########
+# General #
+###########
+project_name: 'neural-collapse-optimizer' #
+experiment_name: 'coupled_vs_decoupled_WD'
+device: 'cuda'
+GPU_num: 0
+loss_func: 'CE'
+log_run: True
+log: 'NC_metrics' # 'training', 'NC_metrics'. Everything is logged with NC_metrics
+log_every: 13
+num_runs: 5
+
+#########
+# Model #
+#########
+
+model_name: 'VGG11'
+pretrained: 'none' #'IMAGENET1K_V1'
+finetune: 'none' #'last_layer' # 'all', 'last_layer' 
+
+#############
+# Optimizer #
+#############
+
+opt_name: 'Adam'
+momentum: 0.9
+weight_decay: 5.e-4 
+weight_decay_coupled: 0.0 # only relevant for AdamAdamW
+weight_decay_L1: 0.0
+
+#############
+# Training #
+#############
+n_epochs: 200
+batch_size: 128
+lr: 0.001 
+lr_decay: 0.1
+lr_schedule: 'step_decay' # 'cosine_decay', 'step_decay', 'none'
+
+#########
+# Data #
+#########
+dataset_name: 'mnist'
+ood_dataset_name: 'fashion'
+
+hydra:
+    launcher:
+        _target_: hydra_plugins.hydra_joblib_launcher.joblib_launcher.JoblibLauncher
+        n_jobs: 6  
+
+      
+  
